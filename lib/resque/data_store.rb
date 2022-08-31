@@ -79,7 +79,8 @@ module Resque
     # Force a reconnect to Redis without closing the connection in the parent
     # process after a fork.
     def reconnect
-      @redis._client.connect
+      # Removing this connect as it's not required / private method
+      # @redis._client.connect
     end
 
     # Returns an array of all known Resque keys in Redis. Redis' KEYS operation
