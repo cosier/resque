@@ -123,7 +123,7 @@ module Resque
       end
       namespace ||= :resque
 
-      @data_store = Resque::DataStore.new(Redis::Namespace.new(namespace, :redis => redis))
+      @data_store = Resque::DataStore.new(Redis::Namespace.new(namespace, :redis => redis, inherit_socket: true))
     when Redis::Namespace
       @data_store = Resque::DataStore.new(server)
     when Resque::DataStore
@@ -131,7 +131,7 @@ module Resque
     when Hash
       @data_store = Resque::DataStore.new(Redis::Namespace.new(:resque, :redis => Redis.new(server)))
     else
-      @data_store = Resque::DataStore.new(Redis::Namespace.new(:resque, :redis => server))
+      @data_store = Resque::DataStore.new(Redis::Namespace.new(:resque, :redis => server, inherit_socket: true))
     end
   end
 
