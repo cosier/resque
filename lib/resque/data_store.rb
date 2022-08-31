@@ -238,7 +238,7 @@ module Resque
 
       def register_worker(worker)
         @redis.pipelined do |piped|
-          piped.sadd(:workers, worker)
+          piped.sadd(:workers, worker.to_s)
           worker_started(worker, redis: piped)
         end
       end
@@ -249,7 +249,7 @@ module Resque
 
       def unregister_worker(worker, &block)
         @redis.pipelined do |piped|
-          piped.srem(:workers, worker)
+          piped.srem(:workers, worker.to_s)
           piped.del(redis_key_for_worker(worker))
           piped.del(redis_key_for_worker_start_time(worker))
           piped.hdel(HEARTBEAT_KEY, worker.to_s)
